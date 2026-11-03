@@ -2,6 +2,11 @@
 
 All notable changes to Claude Code handover are written here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow [Semantic Versioning](https://semver.org/).
 
+## [1.6.0] - 2026-11-03
+
+- `recall.mjs --who you|claude|notes` keeps only one kind of match: what you said (`you`, role `user`), what Claude answered (`claude`, role `assistant`) or the lines of DECISIONS.md and HANDOVER.md (`notes`, role `note`). The heading line says what was kept (`3 match(es) for "migration" from you, newest first:`), it works together with `--since`, `--all` and `--limit`, and any other value is an error that names the three and exits 1, like a bad `--since`. Thanks to [@madhavidayma21](https://github.com/madhavidayma21) in [#8](https://github.com/nrzz/claude-code-handover/pull/8).
+- A test for each of the three values against a synthetic transcript and a DECISIONS.md line, for a value that is none of them, and for `--who` together with `--since`, `--limit` and `--all`.
+
 ## [1.5.0] - 2026-10-28
 
 - `recall.mjs --since` narrows recall to recent work: a number of hours, days or weeks back (`12h`, `7d`, `2w`) or a date (`YYYY-MM-DD`, local midnight); a value that is neither is an error. The index keeps each remark's timestamp, and `search()` in `memory-index.mjs` takes the same filter as `{ since }`. Thanks to [@yoreva-01](https://github.com/yoreva-01) in [#5](https://github.com/nrzz/claude-code-handover/pull/5).
@@ -55,6 +60,7 @@ All notable changes to Claude Code handover are written here. The format follows
 
 - The handover workflow: setup prompt, templates, skill and audit scripts.
 
+[1.6.0]: https://github.com/nrzz/claude-code-handover/compare/v1.5.0...v1.6.0
 [1.5.0]: https://github.com/nrzz/claude-code-handover/compare/v1.4.1...v1.5.0
 [1.4.1]: https://github.com/nrzz/claude-code-handover/compare/v1.4.0...v1.4.1
 [1.4.0]: https://github.com/nrzz/claude-code-handover/compare/v1.3.1...v1.4.0
