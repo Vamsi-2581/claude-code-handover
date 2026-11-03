@@ -525,6 +525,10 @@ test("recall --who filters user messages, assistant responses and notes", withBo
   ];
   write(transcript, rows.map((r) => JSON.stringify(r)).join("\n") + "\n");
 
+  const otherTranscript = writeTranscript(transcriptsIn(config), path.join(box.root, "another-project"), "44444444-aaaa-4aaa-8aaa-000000000004");
+  const otherRows = fs.readFileSync(otherTranscript, "utf8").replaceAll("2026-09-30", "2026-10-02");
+  fs.writeFileSync(otherTranscript, otherRows);
+
   write(
     path.join(box.project, "DECISIONS.md"),
     "- 2026-10-16 invoice exporter cache decision: use warm-cache.\n",
@@ -571,7 +575,23 @@ test("recall --who filters user messages, assistant responses and notes", withBo
     options,
   );
   assert.equal(combined.status, 0, combined.stderr);
-  assert.match(combined.stdout, /1 match\(es\) for "invoice exporter" from you/);
+  assert.match(combined.stdout, /2 match\(es\) for "invoice exporter" from you since 2026-10-01, newest first, showing 1:/);
+
+  const filteredNone = script(
+    box, "recall.mjs",
+    ["invoice", "exporter", "--who", "claude", "--since", "7d"],
+    options,
+  );
+  assert.equal(filteredNone.status, 0, filteredNone.stderr);
+  assert.match(filteredNone.stdout, /^No match for "invoice exporter" from claude since 7d in this project's transcripts/);
+
+  const allFilteredNone = script(
+    box, "recall.mjs",
+    ["invoice", "exporter", "--who", "claude", "--since", "7d", "--all"],
+    options,
+  );
+  assert.equal(allFilteredNone.status, 0, allFilteredNone.stderr);
+  assert.match(allFilteredNone.stdout, /^No match for "invoice exporter" from claude since 7d in any project transcripts\./);
 
   const bad = script(
     box, "recall.mjs",
