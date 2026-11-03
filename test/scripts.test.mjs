@@ -615,7 +615,7 @@ test("recall --project searches only that folder's transcripts and notes", withB
   const otherRow = {
     type: "user",
     timestamp: "2026-10-16T10:00:00Z",
-    message: { role: "user", content: "selectedproject anchor" },
+    message: { role: "user", content: "selectedproject transcriptmarker" },
   };
   fs.appendFileSync(currentTranscript, `${JSON.stringify(currentRow)}\n`);
   fs.appendFileSync(otherTranscript, `${JSON.stringify(otherRow)}\n`);
@@ -624,12 +624,12 @@ test("recall --project searches only that folder's transcripts and notes", withB
   const options = { env: { CLAUDE_CONFIG_DIR: config }, drop: BARE };
   const absolute = script(box, "recall.mjs", ["selectedproject", "anchor", "--project", otherProject], options);
   assert.equal(absolute.status, 0, absolute.stderr);
-  assert.match(absolute.stdout, /^1 match\(es\) for "selectedproject anchor"/);
-  assert.match(absolute.stdout, /selectedproject anchor/);
+  assert.match(absolute.stdout, /^1 match\(es\) for "selectedproject transcriptmarker"/);
+  assert.match(absolute.stdout, /selectedproject transcriptmarker/);
 
   const relative = script(box, "recall.mjs", ["selectedproject", "anchor", "--project", "../another-project"], options);
   assert.equal(relative.status, 0, relative.stderr);
-  assert.match(relative.stdout, /selectedproject anchor/);
+  assert.match(relative.stdout, /selectedproject transcriptmarker/);
 
   const notes = script(box, "recall.mjs", ["selectedproject", "noteanchor", "--project", otherProject, "--who", "notes"], options);
   assert.equal(notes.status, 0, notes.stderr);
