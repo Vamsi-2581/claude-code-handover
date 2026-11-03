@@ -99,7 +99,7 @@ if (WHO !== null) {
   }
 }
 hits.sort((a, b) => (a.ts < b.ts ? 1 : -1));
-const filterLabel = (rawWho === null ? "" : `\x20from\x20${rawWho}`) + (rawSince === null ? "" : ` since ${rawSince}`);
+const filterLabel = (rawWho === null ? "" : ` from ${rawWho}`) + (rawSince === null ? "" : ` since ${rawSince}`);
 if (!hits.length) { console.log(`No match for "${words.join(" ")}"${filterLabel} in ${ALL ? "any project" : "this project's"} transcripts${ALL ? "" : ` (${projectKey})`}.`); process.exit(0); }
 console.log(`${hits.length} match(es) for "${words.join(" ")}"${filterLabel}, newest first${hits.length > LIMIT ? `, showing ${LIMIT}` : ""}:\n`);
 for (const h of hits.slice(0, LIMIT)) {

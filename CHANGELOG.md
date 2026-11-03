@@ -2,6 +2,11 @@
 
 All notable changes to Claude Code handover are written here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow [Semantic Versioning](https://semver.org/).
 
+## [1.7.0] - 2026-11-03
+
+- `recall.mjs` names the filters that were on in both of its summary lines, with the values as typed: `No match for "migration" from claude since 7d in this project's transcripts (...)` and `3 match(es) for "migration" from you since 2026-10-01, newest first:`. Before, the "No match" line read as if the topic had never come up when it only meant that nothing matched within the filters, and the heading named `--who` but not `--since`. With neither flag both lines read as before; a search with no match still exits 0; `--all` and `, showing N` keep their places. Thanks to [@Vamsi-2581](https://github.com/Vamsi-2581) in [#10](https://github.com/nrzz/claude-code-handover/pull/10), for the good first issue [#9](https://github.com/nrzz/claude-code-handover/issues/9).
+- Tests for a filtered search with no match, in the current project and with `--all`, and for a heading with both filters and `, showing N`.
+
 ## [1.6.0] - 2026-11-03
 
 - `recall.mjs --who you|claude|notes` keeps only one kind of match: what you said (`you`, role `user`), what Claude answered (`claude`, role `assistant`) or the lines of DECISIONS.md and HANDOVER.md (`notes`, role `note`). The heading line says what was kept (`3 match(es) for "migration" from you, newest first:`), it works together with `--since`, `--all` and `--limit`, and any other value is an error that names the three and exits 1, like a bad `--since`. Thanks to [@madhavidayma21](https://github.com/madhavidayma21) in [#8](https://github.com/nrzz/claude-code-handover/pull/8).
@@ -60,6 +65,7 @@ All notable changes to Claude Code handover are written here. The format follows
 
 - The handover workflow: setup prompt, templates, skill and audit scripts.
 
+[1.7.0]: https://github.com/nrzz/claude-code-handover/compare/v1.6.0...v1.7.0
 [1.6.0]: https://github.com/nrzz/claude-code-handover/compare/v1.5.0...v1.6.0
 [1.5.0]: https://github.com/nrzz/claude-code-handover/compare/v1.4.1...v1.5.0
 [1.4.1]: https://github.com/nrzz/claude-code-handover/compare/v1.4.0...v1.4.1
