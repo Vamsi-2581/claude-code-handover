@@ -622,12 +622,12 @@ test("recall --project searches only that folder's transcripts and notes", withB
   write(path.join(otherProject, "DECISIONS.md"), "- 2026-10-16 selectedproject noteanchor saved note.\n");
 
   const options = { env: { CLAUDE_CONFIG_DIR: config }, drop: BARE };
-  const absolute = script(box, "recall.mjs", ["selectedproject", "anchor", "--project", otherProject], options);
+  const absolute = script(box, "recall.mjs", ["selectedproject", "transcriptmarker", "--project", otherProject], options);
   assert.equal(absolute.status, 0, absolute.stderr);
   assert.match(absolute.stdout, /^1 match\(es\) for "selectedproject transcriptmarker"/);
   assert.match(absolute.stdout, /selectedproject transcriptmarker/);
 
-  const relative = script(box, "recall.mjs", ["selectedproject", "anchor", "--project", "../another-project"], options);
+  const relative = script(box, "recall.mjs", ["selectedproject", "transcriptmarker", "--project", "../another-project"], options);
   assert.equal(relative.status, 0, relative.stderr);
   assert.match(relative.stdout, /selectedproject transcriptmarker/);
 
